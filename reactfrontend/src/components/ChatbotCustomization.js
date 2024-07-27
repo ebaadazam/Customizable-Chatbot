@@ -3,6 +3,15 @@ import axios from 'axios';
 import Chatbot from './Chatbot';
 import './ChatbotCustomization.css';
 
+/**
+ *  1) useState is used to add state to functional components.It takes the initial state as an argument and
+ *  returns an array with the current state and a function to update it.
+    2) useEffect is used to perform side effects in functional components.It takes a function as an 
+    argument that contains the side-effect logic.
+    When we hit an API, we need both to store and manage the dynamic data on web page
+    Together, these hooks enable functional components to have state and side effects, making them powerful and capable of managing complex behaviors in a React application.
+ */
+
 const ChatbotCustomization = () => {
   const [settings, setSettings] = useState({
     mainColor: '#6fd6ed',
@@ -17,6 +26,11 @@ const ChatbotCustomization = () => {
     sendIcon: null,
   });
 
+
+  /**
+   *  showChatbot - current state value.
+   * setShowChatbot - a function that you can use to update the state.
+   */
   const [showChatbot, setShowChatbot] = useState(false);
 
 
@@ -39,11 +53,12 @@ const ChatbotCustomization = () => {
    * via an axios POST request. If the request is successful, it alerts the user and displays the chatbot.
    */
   const saveSettings = () => {
-    const formData = new FormData();
+    const formData = new FormData(); // FormData object is created to hold the key-value pairs of the settings
     for (let key in settings) {
       formData.append(key, settings[key]);
     }
 
+    // axios.post method sends a POST request to the specified URL 
     axios.post('http://localhost:8000/api/message/', formData, {
       headers: {
           'Content-Type': 'multipart/form-data'

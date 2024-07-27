@@ -18,6 +18,11 @@ const Chatbot = ({ messages }) => {
     const [input, setInput] = useState('');
     const [chatMessages, setChatMessages] = useState(messages);
 
+    /**
+     * This useEffect hook runs when the messages prop changes.
+       It updates the chatMessages state with the new messages value.
+     */
+
     useEffect(() => {
         setChatMessages(messages);
     }, [messages]);
