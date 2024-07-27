@@ -2,14 +2,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 50%;
     max-width: 600px;
-    margin: auto;
+    position: absolute; /* Change to absolute positioning */
+    top: 90px; /* Adjust the top position as needed */
+    right: 20px; /* Adjust the right position as needed */
     padding: 20px;
     background-color: #f7f7f7;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 
 .chat-box {
     width: 100%;

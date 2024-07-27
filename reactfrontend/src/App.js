@@ -44,12 +44,17 @@ const App = () => {
             }
         };
 
-        fetchMessages();
+        fetchMessages(); // calling the function
     }, []);
 
     return (
         <div>
-            <h1 style={{ marginLeft: '80px' }}>Chatbot Customization</h1>
+           <h1 style={{ 
+                marginLeft: '30px', 
+                textAlign: 'center', 
+                width: 'calc(100% - 30px)', 
+                alignItems: 'self-start'
+            }}>Chatbot Customization</h1>
             <ChatbotCustomization customization={customization} setCustomization={setCustomization} />
             <div>
                 <Chatbot messages={message} settings={customization} />
