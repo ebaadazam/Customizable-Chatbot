@@ -42,6 +42,8 @@
   
   .customization-option {
     padding: 10px; 
+    padding-left: 20px;
+    padding-right: 8px;
     display: flex;
     flex-direction: column;
     border: 1px solid #ccc; /* Border color */

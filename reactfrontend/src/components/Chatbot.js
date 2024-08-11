@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Chatbot.css'; // Ensure you have your styles here
+import './Chatbot.css';
 
 const predefinedResponses = {
     'hello': 'Hi! How can I assist you?',
@@ -11,17 +11,14 @@ const predefinedResponses = {
     'what is javascript': 'JavaScript is a versatile, high-level programming language commonly used to create interactive effects within web browsers.',
     'what is java spring boot': 'Java Spring Boot is an extension of the Spring framework that simplifies the development of new Spring applications. It helps developers create stand-alone, production-grade Spring-based applications that can be easily deployed with minimal configuration.',
     'memorly.ai': 'Memorly.AI offers scalable AI solutions that grow with your business. Whether you are a small startup or a large enterprise, Memorly provides the infrastructure to support your evolving needs. Benefit from robust performance and reliability, ensuring that your AI agents remain effective as your business expands.',
-    'what is your purpose' : 'My ultimately purpose is to assist people'
+    'what is your purpose': 'My ultimate purpose is to assist people',
+    'what is the tech stack of this project': 'The Tech Stack used in this project is Django Rest Framework and Reactjs'
 };
+const Chatbot = ({ messages, settings }) => {
 
-const Chatbot = ({ messages }) => {
     const [input, setInput] = useState('');
-    const [chatMessages, setChatMessages] = useState(messages);
 
-    /**
-     * This useEffect hook runs when the messages prop changes.
-       It updates the chatMessages state with the new messages value.
-     */
+    const [chatMessages, setChatMessages] = useState(messages);
 
     useEffect(() => {
         setChatMessages(messages);
@@ -33,40 +30,52 @@ const Chatbot = ({ messages }) => {
         let botResponse = predefinedResponses[userMessage.toLowerCase()];
 
         if (botResponse) {
-            // Use predefined response if available
             setChatMessages([...chatMessages, { user_message: userMessage, bot_response: botResponse }]);
         } else {
-            // Otherwise, fetch the response from the API
-            setChatMessages([...chatMessages, { user_message: userMessage, bot_response: '...' }]);
-
+            // Adding a temporary bot response
+            setChatMessages(prevMessages => [...prevMessages, { user_message: userMessage, bot_response: '...' }]);
             try {
-                const response = await axios.post('http://127.0.0.1:8000/api/message/', {
-                    user_message: userMessage
-                });
+                // Making a POST request
+                const response = await axios.post('http://127.0.0.1:8000/api/message/', { user_message: userMessage });
                 botResponse = response.data.bot_response; // Ensure this matches your API response structure
+
+                // Replaces the temporary response with the actual response from the API.
+                setChatMessages(prevMessages => {
+                    const newMessages = [...prevMessages];
+                    newMessages[newMessages.length - 1].bot_response = botResponse;
+                    return newMessages;
+                });
             } catch (error) {
                 console.error(error);
-                botResponse = "Sorry, I didn't get it!";
+                setChatMessages(prevMessages => {
+                    const newMessages = [...prevMessages];
+                    newMessages[newMessages.length - 1].bot_response = "Sorry, I didn't get it!";
+                    return newMessages;
+                });
             }
-
-            setChatMessages([...chatMessages, { user_message: userMessage, bot_response: botResponse }]);
         }
-
         setInput('');
     };
 
     return (
         <div className="chat-container">
             <h3>Blind Assistant Version 2</h3>
-            <p>This is an AI assistant to help the blind person navigate in the surrounding environment</p>
-            <div className="chat-box">
+            <p>This is an AI assistant to help blind people navigate their surrounding environment</p>
+            <div className="chat-box"
+                style={{ backgroundColor: settings?.mainColor }}>
                 {chatMessages.map((msg, index) => (
                     <div key={index} className="message-pair">
-                        <div className="message sent">
-                            <p className="message-text">{msg.user_message}</p>
+                        
+                        <div className="message sent" style={{ backgroundColor: settings?.userMessageColor }}>
+                            <p className="message-text" style={{ color: settings?.userMessageTextColor }}>
+                                {msg.user_message}
+                            </p>
                         </div>
-                        <div className="message received">
-                            <p className="message-text">{msg.bot_response}</p>
+
+                        <div className="message received" style={{ backgroundColor: settings?.botReplyColor }}>
+                            <p className="message-text" style={{ color: settings?.botReplyTextColor }}>
+                                {msg.bot_response}
+                            </p>
                         </div>
                     </div>
                 ))}
@@ -78,17 +87,15 @@ const Chatbot = ({ messages }) => {
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Type a message..."
                 />
-                <button type="submit">Send</button>
+                <button type="submit"
+                style={{ backgroundColor: settings?.sendButtonColor }}
+                >Send</button>
             </form>
         </div>
     );
 };
 
 export default Chatbot;
-
-
-
-
 
 
 

@@ -8,6 +8,21 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # MessageSerializer class is used to serialize instances of the Message model. It converts Message model
 # instances into JSON format for API responses.
 # The Meta class specifies the model to be used (Message) and includes all fields

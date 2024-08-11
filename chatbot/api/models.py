@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create a model class (table) and defined the fields user_message, bot_response
+# Create a model
 class Message(models.Model):
     user_message = models.TextField()
     bot_response = models.TextField()
@@ -8,6 +8,23 @@ class Message(models.Model):
 
 def __str__(self):
     return self.user_message
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # this code defines a Message model in Django with three fields: user_message, bot_response, and
